@@ -1,0 +1,16 @@
+
+<% layout('../layout.html') -%>
+
+<div>
+  <h2>Post Your View</h2>
+  <div ng-controller="ListController">
+        <form name="myList" >
+          New List Item : <input type="text" name="input" ng-model="listitem" required ng-trim="false">
+          <span class="error" ng-hide="myList.input.$error.required">
+            <button ng-click="sendToServer()">Send</button></span>
+         </form>
+         <li ng-repeat="item in items">{{item}}</li>
+    </div>
+</div>
+
+
