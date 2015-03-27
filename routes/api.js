@@ -1,34 +1,25 @@
 var express = require('express');
-var bodyParser = require('body-parser')
+var redis = require("redis");
 
-module.exports = (function() {
+module.exports = (function () {
   'use strict';
-  var redis = require("redis"),
-    api = express.Router(),
-    client = redis.createClient(); // defaults to 127.0.0.1:6379
-
-  api.use(bodyParser.json())
-
-  // api.get('/',function(req,res){
-  //   res.json({'key':'value'});
-  // });
-
-  api.use(function(req,res,next){
-    client.set("string key", "string val", redis.print);
-      next();
-  });
-
-  api.get('/',function(req,res){
-    client.lrange('myList','0','-1',function(err,reply){
-      console.log(reply)
-        res.json(reply);
+  var api = express.Router();
+  var client = redis.createClient(); // defaults to 127.0.0.1:6379
+  
+  api.get('/listitems',function (req,res){
+    client.lrange('listitems','0','-1',function (err,listitems){
+      var listArray = listitems.map(function (item){
+        return {value:item};
+      })
+      res.json(listArray);
     });
   });
 
-  api.post('/',function(req,res){
+  api.post('/listitems',function (req,res){
     console.log("hrmph", req.body);
-    client.lpush('myList',req.body.item);
-    res.json({"result":"received"});
+    client.lpush('listitems',req.body.value,function (err,id){
+      res.json({value:req.body.value})
+    });
   });
   
   return api;

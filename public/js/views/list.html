@@ -1,0 +1,7 @@
+<div ng-controller="listController">
+  <h2>Post Your View</h2>
+      New List Item : <input type="text" name="input" ng-model="listitem" required ng-trim="false">
+      <span class="error" ng-hide="listitem.input.$error.required">
+        <button ng-click="sendToServer()">Send</button></span>
+     <ul><li ng-repeat="item in items">{{item.value}}</li></ul>
+</div>
