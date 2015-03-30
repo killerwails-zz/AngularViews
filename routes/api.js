@@ -8,8 +8,9 @@ module.exports = (function () {
   
   api.get('/listitems',function (req,res){
     client.lrange('listitems','0','-1',function (err,listitems){
+      var id = 0;
       var listArray = listitems.map(function (item){
-        return {value:item};
+        return {id:id++,value:item};
       })
       res.json(listArray);
     });
@@ -18,7 +19,7 @@ module.exports = (function () {
   api.post('/listitems',function (req,res){
     console.log("hrmph", req.body);
     client.lpush('listitems',req.body.value,function (err,id){
-      res.json({value:req.body.value})
+      res.json({id:id,value:req.body.value})
     });
   });
   

@@ -11,6 +11,7 @@ angular.module('angularViews', ['ngRoute', 'ngResource'])
       enabled: true,
       requireBase: false
     }); 
+      
   }]);                                      
 
 
